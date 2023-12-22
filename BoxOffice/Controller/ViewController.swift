@@ -10,15 +10,21 @@ import UIKit
 class BoxOfficeViewController: UIViewController {
     //var boxOfficeData: [String: BoxOffice] = [:]
     var boxOfficeData: BoxOffice?
-    weak var tableView: UITableView!
+    var tableView: UITableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationInit()
         tableView.dataSource = self
         tableView.delegate = self
+    
+        initScreen()
+
         
+
+    }
+    
+    private func fetchData(day: String) {
         let target: [QueryItemName: String] = [.targetDt: "20231215"]
         
         APIClient().fetchData(serviceType: .dailyBoxOffice, queryItem: target)
@@ -32,7 +38,7 @@ class BoxOfficeViewController: UIViewController {
         }
     }
     
-    private func navigationInit() {
+    private func initScreen() {
         let yesterday = Date().yesterday
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -40,19 +46,34 @@ class BoxOfficeViewController: UIViewController {
         self.view.backgroundColor = .white
         self.navigationItem.title = formatter.string(from: yesterday)
         
-        let button = UIButton()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
+        
+        self.view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
     }
 }
 
 extension BoxOfficeViewController: UITableViewDataSource {
-    //섹션 한개로 때리면 될거같고
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //당일 데이터의 개수
-        return 5
+        return 25
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? CustomCell else {
+            print("응 실패")
+            return UITableViewCell()
+        }
+        
+        cell.textLabel?.text = "test"
+        return cell
     }
 }
 
