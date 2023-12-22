@@ -1,0 +1,11 @@
+//
+//  Key.xcconfig
+//  BoxOffice
+//
+//  Created by Hisop on 2023/12/22.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+MY_KEY = 7d7554c98136c7fcead382ca5f9d5776
