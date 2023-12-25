@@ -18,7 +18,8 @@ class BoxOfficeViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
     
-        initScreen()
+        fetchData(day: "")
+        //initScreen()
 
         
 
@@ -31,8 +32,11 @@ class BoxOfficeViewController: UIViewController {
         { (result: Result<BoxOffice, Error>) in
             switch result {
             case .success(let boxOffice):
+                print("성공")
                 self.boxOfficeData = boxOffice
+                print(self.boxOfficeData)
             case .failure(let error):
+                print("실패")
                 print(error.localizedDescription)
             }
         }

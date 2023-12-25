@@ -7,6 +7,12 @@
 
 import Foundation
 
+//extension Bundle {
+//    var key: String? {
+//        guard let
+//    }
+//}
+
 enum FileType: String {
     case json = ".json"
     case xml = ".xml"
@@ -58,8 +64,12 @@ struct EndPoint {
         components.scheme = Scheme.https
         components.host = Host.kobis
         components.path = Path.webService(serviceType: serviceType, fileType: .json).string
+                
+        guard let myKey = Bundle.main.object(forInfoDictionaryKey: "MyKey") as? String else {
+            return nil
+        }
         
-        let key = URLQueryItem(name: QueryItemName.key.rawValue, value: MyKey.value)
+        let key = URLQueryItem(name: QueryItemName.key.rawValue, value: myKey)
         components.queryItems = [key]
         
         for (name, value) in queryItem {
