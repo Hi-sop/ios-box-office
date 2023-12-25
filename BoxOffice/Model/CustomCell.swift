@@ -7,18 +7,21 @@
 
 import UIKit
 
-class CustomCell: UITableViewCell {
-//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+class CustomCell: UICollectionViewCell {
+    var label: UILabel?
+    
+    init(frame: CGRect, label: UILabel? = nil) {
+        super.init(frame: frame)
+        self.label = label
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        self.textLabel?.text = ""
+        self.label?.text = ""
     }
 }

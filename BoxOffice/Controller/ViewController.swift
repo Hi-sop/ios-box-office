@@ -10,16 +10,17 @@ import UIKit
 class BoxOfficeViewController: UIViewController {
     //var boxOfficeData: [String: BoxOffice] = [:]
     var boxOfficeData: BoxOffice?
-    var tableView: UITableView = UITableView()
+    var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.dataSource = self
-        tableView.delegate = self
-    
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
         fetchData(day: "")
-        //initScreen()
+        initScreen()
 
         
 
@@ -34,7 +35,7 @@ class BoxOfficeViewController: UIViewController {
             case .success(let boxOffice):
                 print("성공")
                 self.boxOfficeData = boxOffice
-                print(self.boxOfficeData)
+                //print(self.boxOfficeData)
             case .failure(let error):
                 print("실패")
                 print(error.localizedDescription)
@@ -47,39 +48,39 @@ class BoxOfficeViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
-        self.view.backgroundColor = .white
         self.navigationItem.title = formatter.string(from: yesterday)
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .white
         
-        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
+        collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "CustomCell")
         
-        self.view.addSubview(tableView)
+        self.view.addSubview(collectionView)
+        
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
 }
 
-extension BoxOfficeViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //당일 데이터의 개수
+extension BoxOfficeViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 25
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as? CustomCell else {
-            print("응 실패")
-            return UITableViewCell()
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as? CustomCell else {
+            return UICollectionViewCell()
         }
+        cell.backgroundColor = .brown
+        cell.label?.text = "test"
         
-        cell.textLabel?.text = "test"
         return cell
     }
 }
 
-extension BoxOfficeViewController: UITableViewDelegate {
+extension BoxOfficeViewController: UICollectionViewDelegate {
 }
