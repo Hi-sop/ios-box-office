@@ -10,7 +10,7 @@ import UIKit
 class BoxOfficeViewController: UIViewController {
     //var boxOfficeData: [String: BoxOffice] = [:]
     var boxOfficeData: BoxOffice?
-    var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +21,6 @@ class BoxOfficeViewController: UIViewController {
         
         fetchData(day: "")
         initScreen()
-
-        
 
     }
     
@@ -51,7 +49,7 @@ class BoxOfficeViewController: UIViewController {
         self.navigationItem.title = formatter.string(from: yesterday)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .systemBackground
         
         collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "CustomCell")
         
@@ -75,10 +73,16 @@ extension BoxOfficeViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as? CustomCell else {
             return UICollectionViewCell()
         }
-        cell.backgroundColor = .brown
-        cell.label?.text = "test"
+        cell.backgroundColor = .systemRed
+        cell.label.text = "test"
         
         return cell
+    }
+}
+
+extension BoxOfficeViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: 200, height: 100)
     }
 }
 

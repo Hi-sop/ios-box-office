@@ -8,11 +8,14 @@
 import UIKit
 
 class CustomCell: UICollectionViewCell {
-    var label: UILabel?
+    var label: UILabel
     
-    init(frame: CGRect, label: UILabel? = nil) {
+    override init(frame: CGRect) {
+        label = UILabel()
         super.init(frame: frame)
-        self.label = label
+        
+        label.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        self.addSubview(label)
     }
     
     required init?(coder: NSCoder) {
@@ -22,6 +25,7 @@ class CustomCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        self.label?.text = ""
+        //self.backgroundColor = .systemBlue
+        //self.label.text = ""
     }
 }
