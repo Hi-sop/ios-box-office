@@ -15,13 +15,12 @@ class BoxOfficeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         collectionView.dataSource = self
         collectionView.delegate = self
         
         fetchData(day: "")
-        initScreen()
-
+        initDate()
+        initCollectionView()
     }
     
     private func fetchData(day: String) {
@@ -40,17 +39,16 @@ class BoxOfficeViewController: UIViewController {
             }
         }
     }
-    
-    private func initScreen() {
+    private func initDate() {
         let yesterday = Date().yesterday
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
         self.navigationItem.title = formatter.string(from: yesterday)
-        
+    }
+    private func initCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
-        
         collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "CustomCell")
         
         self.view.addSubview(collectionView)
